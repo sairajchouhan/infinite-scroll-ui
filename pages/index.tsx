@@ -10,7 +10,7 @@ export default function Home() {
     useInfiniteQuery(
       'posts',
       async ({ pageParam = '' }) => {
-        await new Promise((res) => setTimeout(res, 2000))
+        await new Promise((res) => setTimeout(res, 1000))
         const res = await axios.get('/api/post?cursor=' + pageParam)
         return res.data
       },
@@ -20,12 +20,12 @@ export default function Home() {
     )
 
   useEffect(() => {
-    if (inView) {
+    if (inView && hasNextPage) {
       fetchNextPage()
     }
   }, [inView])
 
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading) return <div className="loading">Loading...</div>
   if (isError) return <div>Error! {JSON.stringify(error)}</div>
 
   return (
