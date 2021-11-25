@@ -1,15 +1,17 @@
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "mongodb"
+  url      = env("MONGODB_ATLAS")
 }
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures=["mongoDb"]
 }
 
 
 model Post {
-  id         Int        @id @default(autoincrement())
+  id         String        @id @default(dbgenerated()) @map("_id") @db.ObjectId
+
   title      String
   createdAt  DateTime   @default(now())
 }
